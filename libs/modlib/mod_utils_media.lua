@@ -11,6 +11,9 @@ local media_extensions = {
 	-- Translations
 	"tr";
 }
+local function split_extension(filename)
+	return filename:match"^(.*)%.(.*)$"
+end
 --mmmm yes, according to modlib we should make this loop it's own global function apart of modlib. Foolish me thinking we can just make case specific
 for i, v in pairs(media_extensions) do
     media_extensions[v] = true
@@ -21,7 +24,7 @@ local function collect_media(modname)
 		-- Traverse files (collect media)
 		local filenames = minetest.get_dir_list(folderpath, false)
 		for _, filename in pairs(filenames) do
-			local _, ext = modlib.file.get_extension(filename)
+			local _, ext = split_extension(filename)
 			if media_extensions[ext] then
 				media[filename] = table.concat({folderpath, filename}, "/")
 			end

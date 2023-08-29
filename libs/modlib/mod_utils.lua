@@ -10,7 +10,7 @@ local function trim_spacing(text)
 	return text:match"^%s*(.-)%s*$"
 end
 --I will add a file reading lib eventually...
-local read_file = mtul.file.read or function(mod, filename)
+local read_file = function(mod, filename)
     local filepath = mtul.utils.get_resource(mod, filename)
     local file, err = io.open(filename, "r")
     if file == nil then return nil, err end

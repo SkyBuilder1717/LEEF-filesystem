@@ -7,7 +7,7 @@ mtul = {
 --optionally allow user to overset local math with mtul while still keeping core funcs & consts.
 mtul.math = {}
 for i, v in pairs(math) do
-    mtul[i] = v
+    mtul.math[i] = v
 end
 
 --run files. These will directly modify the mtul sub tables.
