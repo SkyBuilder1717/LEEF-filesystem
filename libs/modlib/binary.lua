@@ -80,7 +80,7 @@ end
 --+ Reads doubles (f64) or floats (f32)
 --: double reads an f64 if true, f32 otherwise
 function mtul.binary.read_float(read_byte, double)
-	return (double and read_double or read_single)(read_byte)
+	return (double and mtul.binary.read_double or mtul.binary.read_single)(read_byte)
 end
 
 function mtul.binary.read_uint(read_byte, bytes)
@@ -94,7 +94,7 @@ function mtul.binary.read_uint(read_byte, bytes)
 end
 
 function mtul.binary.read_int(read_byte, bytes)
-	local uint = read_uint(read_byte, bytes)
+	local uint = mtul.binary.read_uint(read_byte, bytes)
 	local max = 0x100 ^ bytes
 	if uint >= max / 2 then
 		return uint - max
@@ -118,7 +118,7 @@ function mtul.binary.write_int(write_byte, int, bytes)
 	else
 		assert(int < max / 2)
 	end
-	return write_uint(write_byte, int, bytes)
+	return mtul.binary.write_uint(write_byte, int, bytes)
 end
 
 function mtul.binary.write_single(write_byte, number)
@@ -227,7 +227,7 @@ end
 --: on_write function(double)
 --: double true - f64, false - f32
 function mtul.binary.write_float(write_byte, number, double)
-	(double and write_double or write_single)(write_byte, number)
+	(double and mtul.binary.write_double or mtul.binary.write_single)(write_byte, number)
 end
 
 -- Export environment
