@@ -1,5 +1,6 @@
 mtul = {
     binary = {}, --provided entirely by modlib.
+    utils = {}, --provided entirely by modlib.
     tbl = {} --modified by libs.modlib, source.
 }
 
