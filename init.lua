@@ -10,7 +10,7 @@ for i, v in pairs(math) do
 end
 
 --run files. These will directly modify the mtul sub tables.
-mtul.path = minetest.get_modpath("MTUL-core")
+mtul.path = minetest.get_modpath("mtul_core")
 dofile(mtul.path.."/libs/modlib/binary.lua")
 dofile(mtul.path.."/libs/modlib/table.lua")
 dofile(mtul.path.."/libs/modlib/math.lua")
