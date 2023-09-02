@@ -1,7 +1,8 @@
 mtul = {
     binary = {}, --provided entirely by modlib.
     utils = {}, --provided entirely by modlib.
-    tbl = {} --modified by libs.modlib, source.
+    tbl = {}, --modified by libs.modlib, source.
+    loaded_modules = {}
 }
 
 --optionally allow user to overset local math with mtul while still keeping core funcs & consts.
