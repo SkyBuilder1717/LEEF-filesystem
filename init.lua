@@ -13,17 +13,7 @@ end
 
 --run files. These will directly modify the mtul sub tables.
 mtul.path = minetest.get_modpath("mtul_core")
-dofile(mtul.path.."/libs/modlib/binary.lua")
-dofile(mtul.path.."/libs/modlib/table.lua")
-dofile(mtul.path.."/libs/modlib/math.lua")
---utilities
---[[
-    exports:
-    mtul.
-    media_paths
-    overriden_media_paths
-    modname_by_media
-    overriden_modnames_by_media
-]]
-dofile(mtul.path.."/libs/modlib/mod_utils.lua")
-dofile(mtul.path.."/libs/modlib/mod_utils_media.lua")
+dofile(mtul.path.."/modlib/binary.lua")
+dofile(mtul.path.."/modlib/table.lua")
+dofile(mtul.path.."/modlib/mod_utils.lua")
+dofile(mtul.path.."/modlib/mod_utils_media.lua")
