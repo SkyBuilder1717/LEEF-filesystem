@@ -28,252 +28,40 @@
 
 
 
-<h2>Contents</h2>
-<ul>
-<li><a href="#reading_binary_inputs">reading binary inputs </a></li>
-<li><a href="#misc_binary_helpers">misc binary helpers </a></li>
-<li><a href="#expected_function_inputs">expected function inputs </a></li>
-</ul>
 
 
 <h2>Modules</h2>
 <ul class="nowrap">
-  <li><strong>binary</strong></li>
+  <li><a href="modules/binary.html">binary</a></li>
+  <li><a href="modules/paths.html">paths</a></li>
 </ul>
 
 </div>
 
 <div id="content">
 
-<h1>Module <code>binary</code></h1>
-<p>read and write (little endian) binary.</p>
-<p> located in <code>mtul.binary</code>.</p>
 
+  <h2>implements core dependencies and tools, especially for the MTUL libraries.</h2>
 
-<h2><a href="#reading_binary_inputs">reading binary inputs </a></h2>
-<table class="function_list">
+<h2>Modules</h2>
+<table class="module_list">
 	<tr>
-	<td class="name" nowrap><a href="#read_single">read_single (function)</a></td>
-	<td class="summary">read an IEEE 754 single precision (32-bit) floating point number</td>
+		<td class="name" nowrap><a href="modules/binary.html">binary</a></td>
+		<td class="summary">read and write (little endian) binary.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#read_double">read_double (function)</a></td>
-	<td class="summary">read an IEEE 754 double-precision (64-bit) floating point number</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#read_uint">read_uint (function, int)</a></td>
-	<td class="summary">read an unsigned integer of any given length</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#read_uint">read_uint (function, int)</a></td>
-	<td class="summary">read a signed integer of any given length</td>
+		<td class="name" nowrap><a href="modules/paths.html">paths</a></td>
+		<td class="summary">mod utilities
+find the paths
+ find mod information</td>
 	</tr>
 </table>
-<h2><a href="#misc_binary_helpers">misc binary helpers </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#fround">fround (number)</a></td>
-	<td class="summary">"returns nearest 32-bit single precision float representation of a number" (or something)</td>
-	</tr>
-</table>
-<h2><a href="#expected_function_inputs">expected function inputs </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#read_byte">read_byte ()</a></td>
-	<td class="summary"><code>read_byte</code> is a param name which refers to a function which reads the next byte- returning a whole number between 0-255.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#write_byte">write_byte ()</a></td>
-	<td class="summary"><code>write_byte</code> is similar to read_byte, however it is given an input and expected to write it to the file.</td>
-	</tr>
-</table>
-
-<br/>
-<br/>
-
-
-    <h2 class="section-header has-description"><a name="reading_binary_inputs"></a>reading binary inputs </h2>
-
-          <div class="section-description">
-           read a binary inputs using a <code>read_byte</code> function.
-          </div>
-    <dl class="function">
-    <dt>
-    <a name = "read_single"></a>
-    <strong>read_single (function)</strong>
-    </dt>
-    <dd>
-    read an IEEE 754 single precision (32-bit) floating point number
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">function</span>
-         <a href="index.html#read_byte">read_byte</a>
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "read_double"></a>
-    <strong>read_double (function)</strong>
-    </dt>
-    <dd>
-    read an IEEE 754 double-precision (64-bit) floating point number
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">function</span>
-         <a href="index.html#read_byte">read_byte</a>
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "read_uint"></a>
-    <strong>read_uint (function, int)</strong>
-    </dt>
-    <dd>
-    read an unsigned integer of any given length
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">function</span>
-         <a href="index.html#read_byte">read_byte</a>
-        </li>
-        <li><span class="parameter">int</span>
-         length in bytes of unsigned integer
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "read_uint"></a>
-    <strong>read_uint (function, int)</strong>
-    </dt>
-    <dd>
-    read a signed integer of any given length
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">function</span>
-         <a href="index.html#read_byte">read_byte</a>
-        </li>
-        <li><span class="parameter">int</span>
-         length in bytes of integer
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-</dl>
-    <h2 class="section-header "><a name="misc_binary_helpers"></a>misc binary helpers </h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "fround"></a>
-    <strong>fround (number)</strong>
-    </dt>
-    <dd>
-    "returns nearest 32-bit single precision float representation of a number" (or something)
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">number</span>
-
-
-
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-        nearest 32-bit single precision float representation of a number
-    </ol>
-
-
-
-
-</dd>
-</dl>
-    <h2 class="section-header has-description"><a name="expected_function_inputs"></a>expected function inputs </h2>
-
-          <div class="section-description">
-           functions will expect either a <code>read_byte</code> or <code>write_byte</code> function as inputs
-          </div>
-    <dl class="function">
-    <dt>
-    <a name = "read_byte"></a>
-    <strong>read_byte ()</strong>
-    </dt>
-    <dd>
-
-<p><code>read_byte</code> is a param name which refers to a function which reads the next byte- returning a whole number between 0-255. </p>
-
-<pre><code>function byte()
-    left = left - 1
-    return assert(file_handle:read(1):byte())
-    --reads the next chracter, and converts it to a "numerical code" using string.byte()
-    --it's important that this function moves forward in the file stream (as :read(1) does)
-end
-</code></pre>
-
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-        a bytecode (an int between 0 and 255.)
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "write_byte"></a>
-    <strong>write_byte ()</strong>
-    </dt>
-    <dd>
-    <code>write_byte</code> is similar to read_byte, however it is given an input and expected to write it to the file.
- (example needed)
-
-
-
-
-
-
-
-</dd>
-</dl>
-
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/lunarmodules/ldoc">LDoc 1.5.0</a></i>
-<i style="float:right;">Last updated 2024-01-08 18:14:41 </i>
+<i style="float:right;">Last updated 2024-01-08 19:24:47 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

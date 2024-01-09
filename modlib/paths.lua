@@ -1,5 +1,10 @@
 --felt this was big enough that it practically deserved it's own file.
 -- TODO support for server texture packs (and possibly client TPs in singleplayer?)
+
+--- mod utilities
+--find the paths
+--- find mod information
+-- @module paths
 local media_foldernames = {"textures", "sounds", "media", "models", "locale"}
 local media_extensions = {
 	-- Textures
@@ -7,14 +12,14 @@ local media_extensions = {
 	-- Sounds
 	"ogg";
 	-- Models
-	"x", "b3d", "md2", "obj";
+	"x", "b3d", "md2", "obj", "gltf";
 	-- Translations
 	"tr";
 }
 local function split_extension(filename)
 	return filename:match"^(.*)%.(.*)$"
 end
---mmmm yes, according to modlib we should make this loop it's own global function apart of modlib. Foolish me thinking we can just make case specific
+--make it a set.
 for i, v in pairs(media_extensions) do
     media_extensions[v] = true
 end
@@ -47,21 +52,55 @@ end
 local paths = {}
 local mods = {}
 local overridden_paths = {}
-local overridden_mods = {}
+local mods_with_overriden_media = {}
 for _, mod in ipairs(mtul.utils.get_mod_load_order()) do
 	local mod_media = collect_media(mod.name)
 	for medianame, path in pairs(mod_media) do
 		if paths[medianame] then
 			overridden_paths[medianame] = overridden_paths[medianame] or {}
 			table.insert(overridden_paths[medianame], paths[medianame])
-			overridden_mods[medianame] = overridden_mods[medianame] or {}
-			table.insert(overridden_mods[medianame], mods[medianame])
+			mods_with_overriden_media[medianame] = mods_with_overriden_media[medianame] or {}
+			table.insert(mods_with_overriden_media[medianame], mods[medianame])
 		end
 		paths[medianame] = path
 		mods[medianame] = mod.name
 	end
 end
-mtul.media_paths = paths
-mtul.overriden_media_paths = paths
-mtul.modname_by_media = paths
-mtul.overriden_modnames_by_media = paths
+--- paths of loaded media.
+-- a list of filepaths of loaded media, i.e:
+--	{
+--		["model.b3d"] = "C:/path/minetest/mods/mod2/models/model.b3d"
+--		["img.png"] = "C:/path/minetest/mods/mod2/textures/img.png"
+--	}
+-- NOTE: "loaded" meaning the final mediapath- what the client loads.
+-- @table media_paths
+mtul.paths.media_paths = paths
+
+---modname by media.
+-- a list of mods by indexed by the name of loaded media
+--	{
+--		["model.b3d"] = "mod2"
+--	}
+-- @table modname_by_media
+-- NOTE: "loaded" meaning the final mediapath- what the client loads.
+mtul.paths.modname_by_media = mods
+
+--- overriden media paths.
+-- a list of media paths that were overriden by conflicting model names- the unloaded media, i.e:
+--	{
+--		["model.b3d"] = {
+--			"C:/path/minetest/mods/mod1/models/model.b3d"
+--		}
+--	}
+-- @table overriden_media_paths
+mtul.paths.overriden_media_paths = overridden_paths
+
+--- mods with overriden media (indexed by media).
+-- a list of mods that have overriden media, by media names
+--	{
+--		["model.b3d"] = {
+--			"mod1",
+--		}
+--	}
+-- @table overriden_media_paths
+mtul.paths.mods_with_overriden_media = mods_with_overriden_media
