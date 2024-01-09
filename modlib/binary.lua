@@ -1,37 +1,22 @@
--- Localize globals
+--- read and write (little endian) binary.
+--- located in `mtul.binary`.
+--@module binary
+
 local assert, math_huge, math_frexp, math_floor
 	= assert, math.huge, math.frexp, math.floor
 
 local negative_nan = 0/0
 local positive_nan = negative_nan ^ 1
 
---"returns nearest 32-bit single precision float representation of a number" (or something)
-function mtul.binary.fround(number)
-	if number == 0 or number ~= number then
-		return number
-	end
-	local sign = 1
-	if number < 0 then
-		sign = -1
-		number = -number
-	end
-	local _, exp = math.frexp(number)
-	exp = exp - 1 -- we want 2^exponent >= number > 2^(exponent-1)
-	local powexp = 2 ^ math.max(-126, math.min(exp, 127))
-	local leading = exp <= -127 and 0 or 1 -- subnormal number?
-	local mantissa = math.floor((number / powexp - leading) * 0x800000 + 0.5)
-	if
-		mantissa > 0x800000 -- doesn't fit in mantissa
-		or (exp >= 127 and mantissa == 0x800000) -- fits if the exponent can be increased
-	then
-		return sign * inf
-	end
-	return sign * powexp * (leading + mantissa / 0x800000)
-end
+--- reading binary inputs.
+-- read a binary inputs using a `read_byte` function.
+-- @section reading
+-- @see read_byte
 
 
--- All little endian
---+ Reads an IEEE 754 single-precision floating point number (f32)
+--- read an IEEE 754 single precision (32-bit) floating point number
+-- @function read_single
+-- @param function @{read_byte}
 function mtul.binary.read_single(read_byte)
 	-- First read the mantissa
 	local mantissa = read_byte() / 0x100
@@ -66,7 +51,9 @@ function mtul.binary.read_single(read_byte)
 	return sign * 2 ^ (exponent - 127) * (1 + mantissa)
 end
 
---+ Reads an IEEE 754 double-precision floating point number (f64)
+--- read an IEEE 754 double-precision (64-bit) floating point number
+-- @function read_double
+-- @param function @{read_byte}
 function mtul.binary.read_double(read_byte)
 	-- First read the mantissa
 	local mantissa = 0
@@ -100,12 +87,10 @@ function mtul.binary.read_double(read_byte)
 	return sign * 2 ^ (exponent - 1023) * (1 + mantissa)
 end
 
---+ Reads doubles (f64) or floats (f32)
---: double reads an f64 if true, f32 otherwise
-function mtul.binary.read_float(read_byte, double)
-	return (double and mtul.binary.read_double or mtul.binary.read_single)(read_byte)
-end
-
+--- read an unsigned integer of any given length
+-- @function read_uint
+-- @param function @{read_byte}
+-- @param int length in bytes of unsigned integer
 function mtul.binary.read_uint(read_byte, bytes)
 	local factor = 1
 	local uint = 0
@@ -116,6 +101,10 @@ function mtul.binary.read_uint(read_byte, bytes)
 	return uint
 end
 
+--- read a signed integer of any given length
+-- @function read_uint
+-- @param function @{read_byte}
+-- @param int length in bytes of integer
 function mtul.binary.read_int(read_byte, bytes)
 	local uint = mtul.binary.read_uint(read_byte, bytes)
 	local max = 0x100 ^ bytes
@@ -125,6 +114,10 @@ function mtul.binary.read_int(read_byte, bytes)
 	return uint
 end
 
+--- writing binary
+-- documentation needed
+-- @section write
+-- @fixme add documentation
 function mtul.binary.write_uint(write_byte, uint, bytes)
 	for _ = 1, bytes do
 		write_byte(uint % 0x100)
@@ -247,10 +240,55 @@ function mtul.binary.write_double(write_byte, number)
 	write_byte(sign_byte)
 end
 
---: on_write function(double)
---: double true - f64, false - f32
 function mtul.binary.write_float(write_byte, number, double)
 	(double and mtul.binary.write_double or mtul.binary.write_single)(write_byte, number)
 end
 
--- Export environment
+--- misc binary helpers
+-- @section misc
+
+--- "returns nearest 32-bit single precision float representation of a number" (or something)
+-- @function fround()
+-- @param number
+-- @return nearest 32-bit single precision float representation of a number
+function mtul.binary.fround(number)
+	if number == 0 or number ~= number then
+		return number
+	end
+	local sign = 1
+	if number < 0 then
+		sign = -1
+		number = -number
+	end
+	local _, exp = math.frexp(number)
+	exp = exp - 1 -- we want 2^exponent >= number > 2^(exponent-1)
+	local powexp = 2 ^ math.max(-126, math.min(exp, 127))
+	local leading = exp <= -127 and 0 or 1 -- subnormal number?
+	local mantissa = math.floor((number / powexp - leading) * 0x800000 + 0.5)
+	if
+		mantissa > 0x800000 -- doesn't fit in mantissa
+		or (exp >= 127 and mantissa == 0x800000) -- fits if the exponent can be increased
+	then
+		return sign * inf
+	end
+	return sign * powexp * (leading + mantissa / 0x800000)
+end
+
+--- expected function inputs.
+-- functions will expect either a `read_byte` or `write_byte` function as inputs
+-- @section input
+
+--- `read_byte` is a param name which refers to a function which reads the next byte- returning a whole number between 0-255.
+--
+-- 	function byte()
+--		left = left - 1
+--		return assert(file_handle:read(1):byte())
+--		--reads the next chracter, and converts it to a "numerical code" using string.byte()
+-- 		--it's important that this function moves forward in the file stream (as :read(1) does)
+-- 	end
+-- @function read_byte
+-- @return a bytecode (an int between 0 and 255.)
+
+--- `write_byte` is similar to read_byte, however it is given an input and expected to write it to the file.
+-- (example needed)
+-- @function write_byte
