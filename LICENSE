@@ -1,8 +1,7 @@
-"/libs/" directory: Copright (c) respective owners, see directories within the "libs" directory
-for their respective licenses (License.txt, LICENSE, license.md). Once again note that the "/libs/"
-directory in this case is explicitly exempt from the following MIT License.
+"/modlib/" directory: Copright (c) respective owners, see directories within the "/modlib/" directory
+for their respective licenses (License.txt, LICENSE, license.md).
 
-for all other files outside of "/libs/" directory:
+for all other files outside of "/modlib/" directory:
 
 MIT License
 
