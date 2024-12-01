@@ -43,7 +43,7 @@ local function collect_media(modname)
 		end
 	end
 	for _, foldername in ipairs(media_foldernames) do -- order matters!
-		traverse(mtul.utils.get_resource(modname, foldername))
+		traverse(leef.utils.get_resource(modname, foldername))
 	end
 	return media
 end
@@ -53,7 +53,7 @@ local paths = {}
 local mods = {}
 local overridden_paths = {}
 local mods_with_overriden_media = {}
-for _, mod in ipairs(mtul.utils.get_mod_load_order()) do
+for _, mod in ipairs(leef.utils.get_mod_load_order()) do
 	local mod_media = collect_media(mod.name)
 	for medianame, path in pairs(mod_media) do
 		if paths[medianame] then
@@ -74,7 +74,7 @@ end
 --	}
 -- NOTE: "loaded" meaning the final mediapath- what the client loads.
 -- @table media_paths
-mtul.paths.media_paths = paths
+leef.paths.media_paths = paths
 
 ---modname by media.
 -- a list of mods by indexed by the name of loaded media
@@ -83,7 +83,7 @@ mtul.paths.media_paths = paths
 --	}
 -- @table modname_by_media
 -- NOTE: "loaded" meaning the final mediapath- what the client loads.
-mtul.paths.modname_by_media = mods
+leef.paths.modname_by_media = mods
 
 --- overriden media paths.
 -- a list of media paths that were overriden by conflicting model names- the unloaded media, i.e:
@@ -93,7 +93,7 @@ mtul.paths.modname_by_media = mods
 --		}
 --	}
 -- @table overriden_media_paths
-mtul.paths.overriden_media_paths = overridden_paths
+leef.paths.overriden_media_paths = overridden_paths
 
 --- mods with overriden media (indexed by media).
 -- a list of mods that have overriden media, by media names
@@ -103,4 +103,4 @@ mtul.paths.overriden_media_paths = overridden_paths
 --		}
 --	}
 -- @table overriden_media_paths
-mtul.paths.mods_with_overriden_media = mods_with_overriden_media
+leef.paths.mods_with_overriden_media = mods_with_overriden_media

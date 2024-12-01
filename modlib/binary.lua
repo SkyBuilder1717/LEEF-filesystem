@@ -1,5 +1,5 @@
 --- read and write (little endian) binary.
---- located in `mtul.binary`.
+--- located in `leef.binary`.
 --@module binary
 
 local assert, math_huge, math_frexp, math_floor
@@ -17,7 +17,7 @@ local positive_nan = negative_nan ^ 1
 --- read an IEEE 754 single precision (32-bit) floating point number
 -- @function read_single
 -- @param function @{read_byte}
-function mtul.binary.read_single(read_byte)
+function leef.binary.read_single(read_byte)
 	-- First read the mantissa
 	local mantissa = read_byte() / 0x100
 	mantissa = (mantissa + read_byte()) / 0x100
@@ -54,7 +54,7 @@ end
 --- read an IEEE 754 double-precision (64-bit) floating point number
 -- @function read_double
 -- @param function @{read_byte}
-function mtul.binary.read_double(read_byte)
+function leef.binary.read_double(read_byte)
 	-- First read the mantissa
 	local mantissa = 0
 	for _ = 1, 6 do
@@ -91,7 +91,7 @@ end
 -- @function read_uint
 -- @param function @{read_byte}
 -- @param int length in bytes of unsigned integer
-function mtul.binary.read_uint(read_byte, bytes)
+function leef.binary.read_uint(read_byte, bytes)
 	local factor = 1
 	local uint = 0
 	for _ = 1, bytes do
@@ -105,8 +105,8 @@ end
 -- @function read_uint
 -- @param function @{read_byte}
 -- @param int length in bytes of integer
-function mtul.binary.read_int(read_byte, bytes)
-	local uint = mtul.binary.read_uint(read_byte, bytes)
+function leef.binary.read_int(read_byte, bytes)
+	local uint = leef.binary.read_uint(read_byte, bytes)
 	local max = 0x100 ^ bytes
 	if uint >= max / 2 then
 		return uint - max
@@ -118,7 +118,7 @@ end
 -- documentation needed
 -- @section write
 -- @fixme add documentation
-function mtul.binary.write_uint(write_byte, uint, bytes)
+function leef.binary.write_uint(write_byte, uint, bytes)
 	for _ = 1, bytes do
 		write_byte(uint % 0x100)
 		uint = math_floor(uint / 0x100)
@@ -126,7 +126,7 @@ function mtul.binary.write_uint(write_byte, uint, bytes)
 	assert(uint == 0)
 end
 
-function mtul.binary.write_int(write_byte, int, bytes)
+function leef.binary.write_int(write_byte, int, bytes)
 	local max = 0x100 ^ bytes
 	if int < 0 then
 		assert(-int <= max / 2)
@@ -134,10 +134,10 @@ function mtul.binary.write_int(write_byte, int, bytes)
 	else
 		assert(int < max / 2)
 	end
-	return mtul.binary.write_uint(write_byte, int, bytes)
+	return leef.binary.write_uint(write_byte, int, bytes)
 end
 
-function mtul.binary.write_single(write_byte, number)
+function leef.binary.write_single(write_byte, number)
 	if number ~= number then -- nan: all ones
 		for _ = 1, 4 do write_byte(0xFF) end
 		return
@@ -189,7 +189,7 @@ function mtul.binary.write_single(write_byte, number)
 	write_byte(sign_byte)
 end
 
-function mtul.binary.write_double(write_byte, number)
+function leef.binary.write_double(write_byte, number)
 	if number ~= number then -- nan: all ones
 		for _ = 1, 8 do write_byte(0xFF) end
 		return
@@ -240,8 +240,8 @@ function mtul.binary.write_double(write_byte, number)
 	write_byte(sign_byte)
 end
 
-function mtul.binary.write_float(write_byte, number, double)
-	(double and mtul.binary.write_double or mtul.binary.write_single)(write_byte, number)
+function leef.binary.write_float(write_byte, number, double)
+	(double and leef.binary.write_double or leef.binary.write_single)(write_byte, number)
 end
 
 --- misc binary helpers
@@ -251,7 +251,7 @@ end
 -- @function fround()
 -- @param number
 -- @return nearest 32-bit single precision float representation of a number
-function mtul.binary.fround(number)
+function leef.binary.fround(number)
 	if number == 0 or number ~= number then
 		return number
 	end

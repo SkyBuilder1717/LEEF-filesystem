@@ -1,5 +1,5 @@
 
-function mtul.utils.get_resource(modname, resource, ...)
+function leef.utils.get_resource(modname, resource, ...)
 	if not resource then
 		resource = modname
 		modname = minetest.get_current_modname()
@@ -11,7 +11,7 @@ local function trim_spacing(text)
 end
 --I will add a file reading lib eventually...
 local read_file = function(mod, filename)
-    local filepath = mtul.utils.get_resource(mod, filename)
+    local filepath = leef.utils.get_resource(mod, filename)
     local file, err = io.open(filename, "r")
     if file == nil then return nil, err end
     local content = file:read"*a"
@@ -19,14 +19,14 @@ local read_file = function(mod, filename)
 end
 
 local mod_info
-function mtul.utils.get_mod_info()
+function leef.utils.get_mod_info()
 	if mod_info then return mod_info end
 	mod_info = {}
 	-- TODO validate modnames
 	local modnames = minetest.get_modnames()
 	for _, mod in pairs(modnames) do
 		local info
-		local mod_conf = Settings(mtul.utils.get_resource(mod, "mod.conf"))
+		local mod_conf = Settings(leef.utils.get_resource(mod, "mod.conf"))
 		if mod_conf then
 			info = {}
 			mod_conf = mod_conf:to_table()
@@ -65,10 +65,10 @@ function mtul.utils.get_mod_info()
 	return mod_info
 end
 local mod_load_order
-function mtul.utils.get_mod_load_order()
+function leef.utils.get_mod_load_order()
 	if mod_load_order then return mod_load_order end
 	mod_load_order = {}
-	local mod_info = mtul.utils.get_mod_info()
+	local mod_info = leef.utils.get_mod_info()
 	-- If there are circular soft dependencies, it is possible that a mod is loaded, but not in the right order
 	-- TODO somehow maximize the number of soft dependencies fulfilled in case of circular soft dependencies
 	local function load(mod)
