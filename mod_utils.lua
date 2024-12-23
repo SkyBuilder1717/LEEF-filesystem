@@ -28,6 +28,7 @@ end
 local mod_info
 --- gets mod info
 -- @return table containing all mods and their `description`, `depends`, `optional_depends`, and `name`. This table will throw an error if attempts are made to edit its contents.
+-- @function get_mod_info
 function leef.utils.get_mod_info()
 	if mod_info then return mod_info end
 	mod_info = {}
@@ -86,6 +87,7 @@ end
 
 --- get the load order of mods and their status
 -- @treturn list of tables which contains `status = "loaded" | loading`, and inherits all other fields from the tables returned in `get_mod_info()`. This can be edited.
+-- @function get_mod_load_order
 function leef.utils.get_mod_load_order()
 	local mod_load_order = {}
 	local mod_info = leef.utils.get_mod_info()

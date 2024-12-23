@@ -33,6 +33,8 @@ local positive_nan = negative_nan ^ 1
 -- (example needed)
 -- @function write_byte
 
+--- functions
+-- @section functions
 
 --- read an IEEE 754 single precision (32-bit) floating point number
 -- @function read_single
