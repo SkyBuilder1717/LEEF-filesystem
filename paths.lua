@@ -1,10 +1,10 @@
---felt this was big enough that it practically deserved it's own file.
--- TODO support for server texture packs (and possibly client TPs in singleplayer?)
-
---- mod utilities
---find the paths
---- find mod information
+--- used to find mod media and modpath information
+--
+-- needs dynamic send media support...
+--
+-- This is apart of the [LEEF-filesystem](https://github.com/Luanti-Extended-Engine-Features/LEEF-filesystem) module.
 -- @module paths
+
 local media_foldernames = {"textures", "sounds", "media", "models", "locale"}
 local media_extensions = {
 	-- Textures
@@ -23,6 +23,15 @@ end
 for i, v in pairs(media_extensions) do
     media_extensions[v] = true
 end
+
+local function get_resource(modname, resource)
+	if not resource then
+		resource = modname
+		modname = minetest.get_current_modname()
+	end
+	return table.concat({minetest.get_modpath(modname), resource}, "/")
+end
+
 local function collect_media(modname)
 	local media = {}
 	local function traverse(folderpath)
@@ -43,7 +52,7 @@ local function collect_media(modname)
 		end
 	end
 	for _, foldername in ipairs(media_foldernames) do -- order matters!
-		traverse(leef.utils.get_resource(modname, foldername))
+		traverse(get_resource(modname, foldername))
 	end
 	return media
 end
