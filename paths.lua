@@ -90,8 +90,8 @@ leef.paths.media_paths = paths
 --	{
 --		["model.b3d"] = "mod2"
 --	}
+-- NOTE: "loaded" meaning the final mediapath (what the client ultimately loads)
 -- @table modname_by_media
--- NOTE: "loaded" meaning the final mediapath- what the client loads.
 leef.paths.modname_by_media = mods
 
 --- overriden media paths.

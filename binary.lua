@@ -275,7 +275,7 @@ end
 -- @section misc
 
 --- "returns nearest 32-bit single precision float representation of a number" (or something)
--- @function fround()
+-- @function fround
 -- @param number
 -- @return nearest 32-bit single precision float representation of a number
 function leef.binary.fround(number)
