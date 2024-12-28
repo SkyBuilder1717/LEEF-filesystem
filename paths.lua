@@ -1,7 +1,5 @@
 --- used to find mod media and modpath information
 --
--- needs dynamic send media support...
---
 -- This is apart of the [LEEF-filesystem](https://github.com/Luanti-Extended-Engine-Features/LEEF-filesystem) module.
 -- @module paths
 
