@@ -3,7 +3,7 @@
 -- This is apart of the [LEEF-filesystem](https://github.com/Luanti-Extended-Engine-Features/LEEF-filesystem) module.
 -- @module paths
 
-local media_foldernames = {"textures", "sounds", "media", "models", "locale", "fonts"}
+local media_foldernames = {"textures", "sounds", "media", "models", "locale", "fonts", "vectors", "data"}
 local media_extensions = { -- [textures, sounds, media, models, locale, fonts](https://api.luanti.org/mods/#textures-sounds-media-models-locale-fonts)
 	-- Textures
 	"png", "jpg", "tga", "bmp", "pcx", "ppm", "psd", "wal", "rgb";
