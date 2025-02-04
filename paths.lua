@@ -8,13 +8,15 @@ local media_extensions = { -- [textures, sounds, media, models, locale, fonts](h
 	-- Textures
 	"png", "jpg", "tga", "bmp", "pcx", "ppm", "psd", "wal", "rgb";
 	-- Sounds
-	"ogg";
+	"ogg", "wav", "mp3";
 	-- Models
 	"x", "b3d", "obj", "gltf", "glb", "md2";
 	-- Translations
 	"tr", "po", "pot";
 	-- Fonts
-	"ttf", "woff";
+	"ttf", "otf", "eot", "woff";
+	-- Vectors
+	"svg", "ai";
 	-- MultiCraft: Encrypted
 	"e"; -- Why fucking not? :trollface:
 }
