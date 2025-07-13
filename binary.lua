@@ -8,34 +8,6 @@ local assert, math_huge, math_frexp, math_floor
 local negative_nan = 0/0
 local positive_nan = negative_nan ^ 1
 
-
-
-
---- expected function inputs.
--- functions will expect either a `read_byte` or `write_byte` function as inputs
--- @section input
-
---- `read_byte` is a param name which refers to a function which reads the next byte- returning a whole number between 0-255.
---
--- 	function byte()
---		left = left - 1
---		return assert(file_handle:read(1):byte())
---		--reads the next chracter, and converts it to a "numerical code" using string.byte()
--- 		--it's important that this function moves forward in the file stream (as :read(1) does)
--- 	end
--- @function read_byte
--- @return a bytecode (an int between 0 and 255.)
-
---- `write_byte` is similar to read_byte, however it is given an input and expected to write it to the file.
--- (example needed)
--- @function write_byte
-
-
-
-
-
-
-
 --- reading binary inputs.
 -- read a binary inputs using a `read_byte` function.
 -- @section reading
@@ -333,7 +305,26 @@ function leef.binary.fround(number)
 		mantissa > 0x800000 -- doesn't fit in mantissa
 		or (exp >= 127 and mantissa == 0x800000) -- fits if the exponent can be increased
 	then
-		return sign * inf
+		return sign * math.huge
 	end
 	return sign * powexp * (leading + mantissa / 0x800000)
 end
+
+--- expected function inputs.
+-- functions will expect either a `read_byte` or `write_byte` function as inputs
+-- @section input
+
+--- `read_byte` is a param name which refers to a function which reads the next byte- returning a whole number between 0-255.
+--
+-- 	function byte()
+--		left = left - 1
+--		return assert(file_handle:read(1):byte())
+--		--reads the next chracter, and converts it to a "numerical code" using string.byte()
+-- 		--it's important that this function moves forward in the file stream (as :read(1) does)
+-- 	end
+-- @function read_byte
+-- @return a bytecode (an int between 0 and 255.)
+
+--- `write_byte` is similar to read_byte, however it is given an input and expected to write it to the file.
+-- (example needed)
+-- @function write_byte
