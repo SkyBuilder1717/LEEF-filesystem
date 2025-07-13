@@ -42,9 +42,9 @@ local positive_nan = negative_nan ^ 1
 -- @see read_byte
 
 --- read an IEEE 754 single precision (32-bit) floating point number
--- @function read_single
--- @param function @{read_byte}
+-- @tparam function read_byte @{read_byte}
 -- @return number
+-- @function read_single
 function leef.binary.read_single(read_byte)
 	-- First read the mantissa
 	local mantissa = read_byte() / 0x100
@@ -80,9 +80,9 @@ function leef.binary.read_single(read_byte)
 end
 
 --- read an IEEE 754 double-precision (64-bit) floating point number
--- @function read_double
--- @param function @{read_byte}
+-- @tparam function read_byte @{read_byte}
 -- @return number
+-- @function read_double
 function leef.binary.read_double(read_byte)
 	-- First read the mantissa
 	local mantissa = 0
@@ -117,10 +117,10 @@ function leef.binary.read_double(read_byte)
 end
 
 --- read an unsigned integer of any given length
+-- @tparam function read_byte @{read_byte}
+-- @tparam number bytes length in bytes of unsigned integer
+-- @return number
 -- @function read_uint
--- @param function @{read_byte}
--- @param int length in bytes of unsigned integer
--- @return unit number
 function leef.binary.read_uint(read_byte, bytes)
 	local factor = 1
 	local uint = 0
@@ -133,9 +133,9 @@ end
 
 --- read a signed integer of any given length
 -- @function read_uint
--- @param function @{read_byte}
--- @param int length in bytes of integer
--- @return int number
+-- @tparam function read_byte @{read_byte}
+-- @tparam number bytes length in bytes of integer
+-- @treturn number
 function leef.binary.read_int(read_byte, bytes)
 	local uint = leef.binary.read_uint(read_byte, bytes)
 	local max = 0x100 ^ bytes
@@ -156,9 +156,9 @@ end
 -- @see write_byte
 
 --- write an int
--- @param write_byte @{write_byte}
--- @tparam int number integer to write
--- @tparam bytes number bytes number of bytes to write
+-- @tparam function write_byte @{write_byte}
+-- @tparam number int integer to write
+-- @tparam number bytes bytes number of bytes to write
 -- @function write_int
 function leef.binary.write_int(write_byte, int, bytes)
 	local max = 0x100 ^ bytes
@@ -172,9 +172,9 @@ function leef.binary.write_int(write_byte, int, bytes)
 end
 
 --- write a uint
--- @param write_byte @{write_byte}
--- @tparam uint number unsigned integer to write
--- @tparam bytes number number of bytes to write
+-- @tparam function write_byte @{write_byte}
+-- @tparam number uint unsigned integer to write
+-- @tparam number bytes number of bytes to write
 -- @function write_uint
 function leef.binary.write_uint(write_byte, uint, bytes)
 	for _ = 1, bytes do
@@ -186,7 +186,7 @@ end
 
 
 --- write a single
--- @param write_byte @{write_byte}
+-- @tparam function write_byte @{write_byte}
 -- @tparam number number single precision float to write
 -- @function write_single
 function leef.binary.write_single(write_byte, number)
@@ -242,7 +242,7 @@ function leef.binary.write_single(write_byte, number)
 end
 
 --- write a double
--- @param write_byte @{write_byte}
+-- @tparam function write_byte @{write_byte}
 -- @tparam number number double precision float to write
 -- @function write_double
 function leef.binary.write_double(write_byte, number)
