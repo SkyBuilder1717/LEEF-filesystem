@@ -8,10 +8,7 @@ local assert, math_huge, math_frexp, math_floor
 local negative_nan = 0/0
 local positive_nan = negative_nan ^ 1
 
---- reading binary inputs.
--- read a binary inputs using a `read_byte` function.
--- @section reading
--- @see read_byte
+
 
 
 --- expected function inputs.
@@ -33,7 +30,12 @@ local positive_nan = negative_nan ^ 1
 -- (example needed)
 -- @function write_byte
 
+
+
+--- reading binary inputs.
+-- read a binary inputs using a `read_byte` function.
 -- @section reading
+-- @see read_byte
 
 --- read an IEEE 754 single precision (32-bit) floating point number
 -- @function read_single
@@ -139,13 +141,13 @@ function leef.binary.read_int(read_byte, bytes)
 	return uint
 end
 
--- @section reading
+-- @section writing
 
 --- writing binary
 -- @function write_uint
 -- @param write_byte @{write_byte}
--- @tparam int unit unit to write
--- @tparam int bytes number of bytes to right
+-- @tparam number unsigned integer to write
+-- @tparam number bytes number of bytes to right
 function leef.binary.write_uint(write_byte, uint, bytes)
 	for _ = 1, bytes do
 		write_byte(uint % 0x100)
@@ -154,6 +156,17 @@ function leef.binary.write_uint(write_byte, uint, bytes)
 	assert(uint == 0)
 end
 
+
+--- writing binary
+-- writing binary using a `write_byte` function.
+-- @section writing
+-- @see write_byte
+
+
+-- @function write_uint
+-- @param write_byte @{write_byte}
+-- @tparam int integer to write
+-- @tparam int bytes number of bytes to right
 function leef.binary.write_int(write_byte, int, bytes)
 	local max = 0x100 ^ bytes
 	if int < 0 then
