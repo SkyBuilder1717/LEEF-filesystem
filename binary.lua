@@ -32,6 +32,10 @@ local positive_nan = negative_nan ^ 1
 
 
 
+
+
+
+
 --- reading binary inputs.
 -- read a binary inputs using a `read_byte` function.
 -- @section reading
@@ -141,16 +145,21 @@ function leef.binary.read_int(read_byte, bytes)
 	return uint
 end
 
---- writing binary
+
+
+
+
+
+--- writing binary.
 -- writing binary using a `write_byte` function.
 -- @section writing
 -- @see write_byte
 
----write uint
--- @function write_uint
+--- write an int
 -- @param write_byte @{write_byte}
 -- @tparam int number integer to write
--- @tparam bytes number bytes number of bytes to right
+-- @tparam bytes number bytes number of bytes to write
+-- @function write_int
 function leef.binary.write_int(write_byte, int, bytes)
 	local max = 0x100 ^ bytes
 	if int < 0 then
@@ -163,10 +172,10 @@ function leef.binary.write_int(write_byte, int, bytes)
 end
 
 --- write a uint
--- @function write_uint
 -- @param write_byte @{write_byte}
 -- @tparam uint number unsigned integer to write
--- @tparam bytes number number of bytes to right
+-- @tparam bytes number number of bytes to write
+-- @function write_uint
 function leef.binary.write_uint(write_byte, uint, bytes)
 	for _ = 1, bytes do
 		write_byte(uint % 0x100)
@@ -176,6 +185,10 @@ function leef.binary.write_uint(write_byte, uint, bytes)
 end
 
 
+--- write a single
+-- @param write_byte @{write_byte}
+-- @tparam number number single precision float to write
+-- @function write_single
 function leef.binary.write_single(write_byte, number)
 	if number ~= number then -- nan: all ones
 		for _ = 1, 4 do write_byte(0xFF) end
@@ -228,6 +241,10 @@ function leef.binary.write_single(write_byte, number)
 	write_byte(sign_byte)
 end
 
+--- write a double
+-- @param write_byte @{write_byte}
+-- @tparam number number double precision float to write
+-- @function write_double
 function leef.binary.write_double(write_byte, number)
 	if number ~= number then -- nan: all ones
 		for _ = 1, 8 do write_byte(0xFF) end
@@ -279,9 +296,13 @@ function leef.binary.write_double(write_byte, number)
 	write_byte(sign_byte)
 end
 
+
 function leef.binary.write_float(write_byte, number, double)
 	(double and leef.binary.write_double or leef.binary.write_single)(write_byte, number)
 end
+
+
+
 
 
 
