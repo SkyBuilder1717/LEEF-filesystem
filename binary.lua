@@ -141,28 +141,12 @@ function leef.binary.read_int(read_byte, bytes)
 	return uint
 end
 
--- @section writing
-
---- writing binary
--- @function write_uint
--- @param write_byte @{write_byte}
--- @tparam number unsigned integer to write
--- @tparam number bytes number of bytes to right
-function leef.binary.write_uint(write_byte, uint, bytes)
-	for _ = 1, bytes do
-		write_byte(uint % 0x100)
-		uint = math_floor(uint / 0x100)
-	end
-	assert(uint == 0)
-end
-
-
 --- writing binary
 -- writing binary using a `write_byte` function.
 -- @section writing
 -- @see write_byte
 
-
+---write uint
 -- @function write_uint
 -- @param write_byte @{write_byte}
 -- @tparam int integer to write
@@ -177,6 +161,20 @@ function leef.binary.write_int(write_byte, int, bytes)
 	end
 	return leef.binary.write_uint(write_byte, int, bytes)
 end
+
+--- write a uint
+-- @function write_uint
+-- @param write_byte @{write_byte}
+-- @tparam number unsigned integer to write
+-- @tparam number bytes number of bytes to right
+function leef.binary.write_uint(write_byte, uint, bytes)
+	for _ = 1, bytes do
+		write_byte(uint % 0x100)
+		uint = math_floor(uint / 0x100)
+	end
+	assert(uint == 0)
+end
+
 
 function leef.binary.write_single(write_byte, number)
 	if number ~= number then -- nan: all ones
@@ -284,6 +282,10 @@ end
 function leef.binary.write_float(write_byte, number, double)
 	(double and leef.binary.write_double or leef.binary.write_single)(write_byte, number)
 end
+
+
+
+
 
 --- misc binary helpers
 -- @section misc
