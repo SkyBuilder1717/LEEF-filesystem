@@ -149,8 +149,8 @@ end
 ---write uint
 -- @function write_uint
 -- @param write_byte @{write_byte}
--- @tparam int integer to write
--- @tparam int bytes number of bytes to right
+-- @tparam int number integer to write
+-- @tparam bytes number bytes number of bytes to right
 function leef.binary.write_int(write_byte, int, bytes)
 	local max = 0x100 ^ bytes
 	if int < 0 then
@@ -165,8 +165,8 @@ end
 --- write a uint
 -- @function write_uint
 -- @param write_byte @{write_byte}
--- @tparam number unsigned integer to write
--- @tparam number bytes number of bytes to right
+-- @tparam uint number unsigned integer to write
+-- @tparam bytes number number of bytes to right
 function leef.binary.write_uint(write_byte, uint, bytes)
 	for _ = 1, bytes do
 		write_byte(uint % 0x100)
