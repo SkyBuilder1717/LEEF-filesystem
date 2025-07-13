@@ -33,8 +33,7 @@ local positive_nan = negative_nan ^ 1
 -- (example needed)
 -- @function write_byte
 
---- functions
--- @section functions
+-- @section reading
 
 --- read an IEEE 754 single precision (32-bit) floating point number
 -- @function read_single
@@ -139,6 +138,8 @@ function leef.binary.read_int(read_byte, bytes)
 	end
 	return uint
 end
+
+-- @section reading
 
 --- writing binary
 -- @function write_uint
