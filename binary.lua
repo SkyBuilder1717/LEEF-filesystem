@@ -13,33 +13,10 @@ local positive_nan = negative_nan ^ 1
 -- @section reading
 -- @see read_byte
 
-
---- expected function inputs.
--- functions will expect either a `read_byte` or `write_byte` function as inputs
--- @section input
-
---- `read_byte` is a param name which refers to a function which reads the next byte- returning a whole number between 0-255.
---
--- 	function byte()
---		left = left - 1
---		return assert(file_handle:read(1):byte())
---		--reads the next chracter, and converts it to a "numerical code" using string.byte()
--- 		--it's important that this function moves forward in the file stream (as :read(1) does)
--- 	end
--- @function read_byte
--- @return a bytecode (an int between 0 and 255.)
-
---- `write_byte` is similar to read_byte, however it is given an input and expected to write it to the file.
--- (example needed)
--- @function write_byte
-
---- functions
--- @section functions
-
 --- read an IEEE 754 single precision (32-bit) floating point number
--- @function read_single
--- @param function @{read_byte}
+-- @tparam function read_byte @{read_byte}
 -- @return number
+-- @function read_single
 function leef.binary.read_single(read_byte)
 	-- First read the mantissa
 	local mantissa = read_byte() / 0x100
@@ -75,9 +52,9 @@ function leef.binary.read_single(read_byte)
 end
 
 --- read an IEEE 754 double-precision (64-bit) floating point number
--- @function read_double
--- @param function @{read_byte}
+-- @tparam function read_byte @{read_byte}
 -- @return number
+-- @function read_double
 function leef.binary.read_double(read_byte)
 	-- First read the mantissa
 	local mantissa = 0
@@ -112,10 +89,10 @@ function leef.binary.read_double(read_byte)
 end
 
 --- read an unsigned integer of any given length
+-- @tparam function read_byte @{read_byte}
+-- @tparam number bytes length in bytes of unsigned integer
+-- @return number
 -- @function read_uint
--- @param function @{read_byte}
--- @param int length in bytes of unsigned integer
--- @return unit number
 function leef.binary.read_uint(read_byte, bytes)
 	local factor = 1
 	local uint = 0
@@ -128,9 +105,9 @@ end
 
 --- read a signed integer of any given length
 -- @function read_uint
--- @param function @{read_byte}
--- @param int length in bytes of integer
--- @return int number
+-- @tparam function read_byte @{read_byte}
+-- @tparam number bytes length in bytes of integer
+-- @treturn number
 function leef.binary.read_int(read_byte, bytes)
 	local uint = leef.binary.read_uint(read_byte, bytes)
 	local max = 0x100 ^ bytes
@@ -140,19 +117,21 @@ function leef.binary.read_int(read_byte, bytes)
 	return uint
 end
 
---- writing binary
--- @function write_uint
--- @param write_byte @{write_byte}
--- @tparam int unit unit to write
--- @tparam int bytes number of bytes to right
-function leef.binary.write_uint(write_byte, uint, bytes)
-	for _ = 1, bytes do
-		write_byte(uint % 0x100)
-		uint = math_floor(uint / 0x100)
-	end
-	assert(uint == 0)
-end
 
+
+
+
+
+--- writing binary.
+-- writing binary using a `write_byte` function.
+-- @section writing
+-- @see write_byte
+
+--- write an int
+-- @tparam function write_byte @{write_byte}
+-- @tparam number int integer to write
+-- @tparam number bytes bytes number of bytes to write
+-- @function write_int
 function leef.binary.write_int(write_byte, int, bytes)
 	local max = 0x100 ^ bytes
 	if int < 0 then
@@ -164,6 +143,24 @@ function leef.binary.write_int(write_byte, int, bytes)
 	return leef.binary.write_uint(write_byte, int, bytes)
 end
 
+--- write a uint
+-- @tparam function write_byte @{write_byte}
+-- @tparam number uint unsigned integer to write
+-- @tparam number bytes number of bytes to write
+-- @function write_uint
+function leef.binary.write_uint(write_byte, uint, bytes)
+	for _ = 1, bytes do
+		write_byte(uint % 0x100)
+		uint = math_floor(uint / 0x100)
+	end
+	assert(uint == 0)
+end
+
+
+--- write a single
+-- @tparam function write_byte @{write_byte}
+-- @tparam number number single precision float to write
+-- @function write_single
 function leef.binary.write_single(write_byte, number)
 	if number ~= number then -- nan: all ones
 		for _ = 1, 4 do write_byte(0xFF) end
@@ -216,6 +213,10 @@ function leef.binary.write_single(write_byte, number)
 	write_byte(sign_byte)
 end
 
+--- write a double
+-- @tparam function write_byte @{write_byte}
+-- @tparam number number double precision float to write
+-- @function write_double
 function leef.binary.write_double(write_byte, number)
 	if number ~= number then -- nan: all ones
 		for _ = 1, 8 do write_byte(0xFF) end
@@ -267,9 +268,17 @@ function leef.binary.write_double(write_byte, number)
 	write_byte(sign_byte)
 end
 
+
 function leef.binary.write_float(write_byte, number, double)
 	(double and leef.binary.write_double or leef.binary.write_single)(write_byte, number)
 end
+
+
+
+
+
+
+
 
 --- misc binary helpers
 -- @section misc
@@ -296,7 +305,26 @@ function leef.binary.fround(number)
 		mantissa > 0x800000 -- doesn't fit in mantissa
 		or (exp >= 127 and mantissa == 0x800000) -- fits if the exponent can be increased
 	then
-		return sign * inf
+		return sign * math.huge
 	end
 	return sign * powexp * (leading + mantissa / 0x800000)
 end
+
+--- expected function inputs.
+-- functions will expect either a `read_byte` or `write_byte` function as inputs
+-- @section input
+
+--- `read_byte` is a param name which refers to a function which reads the next byte- returning a whole number between 0-255.
+--
+-- 	function byte()
+--		left = left - 1
+--		return assert(file_handle:read(1):byte())
+--		--reads the next chracter, and converts it to a "numerical code" using string.byte()
+-- 		--it's important that this function moves forward in the file stream (as :read(1) does)
+-- 	end
+-- @function read_byte
+-- @return a bytecode (an int between 0 and 255.)
+
+--- `write_byte` is similar to read_byte, however it is given an input and expected to write it to the file.
+-- (example needed)
+-- @function write_byte
